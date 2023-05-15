@@ -1,1 +1,3 @@
-# What is this app? 
+# What is this app?
+
+Building a weather data API using Flask
