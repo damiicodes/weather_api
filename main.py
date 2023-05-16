@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import pandas as pd
 
 # Create a Flask application instance
 app = Flask(__name__)
@@ -12,10 +13,17 @@ def home():
 
 
 # Define a route for the about page
-@app.route('/about/')
-def about():
+@app.route('/api/v1/<station>/<date>')
+def about(station, date):
+    filename = ('data_small/TG_STAID' + str(station).zfill(6) + '.txt')
+    df = pd.read_csv(filename, skiprows=20, parse_dates=['    DATE'])
+    temperature = df.loc[df['    DATE'] == date]['   TG'].squeeze() / 10
     # Render the 'about.html' template and return it as the response
-    return render_template('about.html')
+    return {
+        'station': station,
+        'date': date,
+        'temperature': temperature
+    }
 
 
 # Run the Flask application in debug mode
