@@ -4,12 +4,14 @@ import pandas as pd
 # Create a Flask application instance
 app = Flask(__name__)
 
+station_data = pd.read_csv('data_small/stations.txt', skiprows=17)
+station_data = station_data[['STAID','STANAME                                 ']]
 
 # Define a route for the homepage
 @app.route('/')
 def home():
     # Render the 'tutorial.html' template and return it as the response
-    return render_template('home.html')
+    return render_template('home.html', station_data=station_data.to_html())
 
 
 # Define a route for the about page
